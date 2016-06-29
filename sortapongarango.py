@@ -7,8 +7,8 @@ lineThickness = 10
 paddleSize = 50
 PaddleOffSet = 20
 PaddleSpeed = 4
-score1 = 0
-score2 = 0
+#score1 = 0
+#score2 = 0
 
 Black = (0, 0, 0)
 White = (255,255,255)
@@ -48,8 +48,17 @@ def checkHitBall(ballrect, paddle1rect, paddle2rect, ballDirX):
 	else:
 		return 1
 
+def checkPointScored1(paddle1rect, ballrect, score, ballDirX):
+	if ball.right == WindowWidth - lineThickness:
+		score +=1 
+		return score
+	else: return score
 
-
+def checkPointScored2(paddle2rect, ballrect, score, ballDirx):
+	if ballrect.left == lineThickness:
+		score += 1
+		return score
+	else: return score
 
 	'''
 	if ballDirX == -1 and paddle1rect.right == ballrect.left and paddle1rect.top < ballrect.top and paddle1rect.bottom > ballrect.bottom:
@@ -64,7 +73,8 @@ def checkHitBall(ballrect, paddle1rect, paddle2rect, ballDirX):
 		return -1
 	else:
 		return 1
-		'''
+
+
 def checkPointScored2(ballrect, score2):
 	if ballrect.right == WindowWidth-lineThickness:
 		score2+=1
@@ -87,7 +97,7 @@ def displayScore2(score2):
 	resultRect = resultSurf.get_rect()
 	resultRect.topleft = (WindowWidth-150,25)
 	DisplaySurf.blit(resultSurf,resultRect)
-
+'''
 
 def main():
 	pygame.init()
@@ -104,6 +114,7 @@ def main():
 	ballY = WindowHeight/2 - lineThickness/2
 	playerOnePosition = (WindowHeight - paddleSize)/2
 	playerTwoPosition = (WindowHeight - paddleSize)/2
+	score = 0
 	ballDirX = -1
 	ballDirY = -1
 ##############################################################
@@ -130,8 +141,9 @@ def main():
 	drawPaddle(paddle1,paddle1rect)
 	drawPaddle(paddle2,paddle2rect)
 	drawBall(ball,ballrect)
-	score1 = 0
-	score2= 0
+
+	#score1 = 0
+	#score2= 0
 
 
 	
@@ -160,10 +172,12 @@ def main():
 		drawBall(ball,ballrect)
 		ballrect = moveBall(ballrect,ballDirX, ballDirY)
 		ballDirX, ballDirY = checkEdgeCollision(ballrect, ballDirX, ballDirY)
-		score2 = checkPointScored2(ballrect, score2)
-		score1 = checkPointScored1(ballrect, score1)
-		displayScore1(score1)
-		displayScore2(score2)
+		#score2 = checkPointScored2(ballrect, score2)
+		#score1 = checkPointScored1(ballrect, score1)
+		#displayScore1(score1)
+		#displayScore2(score2)
+		score1 = checkPointScored1(paddle1rect, ballrect, score1, ballDirX)
+		score2 = checkPointScored2(paddle2rect, ballrect, score2, ballDirX)
 		ballDirX = ballDirX* checkHitBall(ballrect,paddle1rect,paddle2rect, ballDirX)
 if __name__=='__main__':
 	main()
